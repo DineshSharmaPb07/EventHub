@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  // Ab target server ka IP vercel.json handle karega, yahan bas relative path rahega
-  baseURL: '', 
+  // Direct full absolute path back to AWS
+  baseURL: 'http://13.203.97.69:5000', 
 });
 
 API.interceptors.request.use((config) => {
