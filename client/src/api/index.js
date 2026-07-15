@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://13.203.97.69:5000',
+  // Yahan direct AWS IP daal do testing ke liye
+  baseURL: 'http://13.203.97.69:5000', 
 });
 
 API.interceptors.request.use((config) => {
