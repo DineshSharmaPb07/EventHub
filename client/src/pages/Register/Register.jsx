@@ -15,14 +15,17 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setLoading(false);
+    setLoading(true); // Loading true kiya taaki double submit na ho
 
     try {
       await authService.register(formData);
       // Registration successful, redirect to login page
       navigate('/login');
     } catch (err) {
+      console.error("Register Error Details:", err); // Isse browser console me direct error dikhega
       setError(err.response?.data?.message || 'Registration failed. Try again.');
+    } finally {
+      setLoading(false); // Request khatam hone par loading band
     }
   };
 
@@ -45,7 +48,9 @@ const Register = () => {
           <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>Password</label>
           <input type="password" name="password" value={formData.password} onChange={handleChange} required style={{ width: '100%', padding: '0.7rem', border: '1px solid #cbd5e1', borderRadius: '6px', boxSizing: 'border-box' }} />
         </div>
-        <button type="submit" style={{ width: '100%', padding: '0.8rem', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '6px', fontSize: '1rem', fontWeight: '600', cursor: 'pointer' }}>Register</button>
+        <button type="submit" disabled={loading} style={{ width: '100%', padding: '0.8rem', backgroundColor: loading ? '#6ee7b7' : '#10b981', color: 'white', border: 'none', borderRadius: '6px', fontSize: '1rem', fontWeight: '600', cursor: loading ? 'not-allowed' : 'pointer' }}>
+          {loading ? 'Registering...' : 'Register'}
+        </button>
       </form>
       <p style={{ textAlign: 'center', marginTop: '1.5rem', color: '#64748b' }}>
         Already have an account? <Link to="/login" style={{ color: '#10b981', textDecoration: 'none', fontWeight: '600' }}>Login here</Link>
