@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  // Direct full absolute path back to AWS
-  baseURL: 'http://13.203.97.69:5000', 
+  // Yahan tera naya secure Ngrok URL paste ho gaya
+  baseURL: 'https://jester-hatless-elusive.ngrok-free.dev', 
 });
 
 API.interceptors.request.use((config) => {
