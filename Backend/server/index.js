@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 require('dotenv').config();
@@ -6,17 +7,7 @@ require('dotenv').config();
 const app = express();
 
 app.use(express.json());
-
-// Fixed CORS setup for Vercel production & Local development
-app.use(cors({
-  origin: [
-    'https://event-hub-red.vercel.app',
-    'http://localhost:5173'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+app.use(cors());
 
 // Inject routes endpoints
 app.use('/api/auth', authRoutes);
@@ -26,8 +17,11 @@ app.get('/', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/eventhub';
 
-// Express Server Start (No MongoDB/Mongoose connection needed here because Prisma handles DB inside controllers!)
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log('MongoDB Connected Successfully.');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch(err => console.log('Database connection error: ', err));

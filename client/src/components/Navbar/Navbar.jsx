@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { authService } from '../../services/authService';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   
-  // Local state login check karne ke liye
   const [hasToken, setHasToken] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     setHasToken(!!token);
-  }, [user, navigate]);
+  }, [user]);
 
   const handleLogout = () => {
-    authService.logout();
-    logout();
+    localStorage.removeItem('token');
+    if (logout) logout();
     setHasToken(false);
     navigate('/login');
+    window.location.reload();
   };
 
-  // Agar user name context se mile toh wo, nahi toh localStorage se backup check
   const userName = user?.name || "User";
 
   return (
@@ -33,7 +31,7 @@ const Navbar = () => {
       <div className="navbar-links">
         <Link to="/events">Events</Link>
         
-        {hasToken || user ? (
+        {hasToken ? (
           <>
             <Link to="/dashboard">Dashboard</Link>
             <span style={{ color: '#38bdf8', marginLeft: '1.5rem', fontWeight: '600' }}>

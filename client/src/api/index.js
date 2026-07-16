@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  // Yahan tera naya secure Ngrok URL paste ho gaya
-  baseURL: 'https://your-unique-subdomain.ngrok-free.dev', 
+  // Ngrok URL hatao aur local port 5000 set karo
+  baseURL: 'http://localhost:5000', 
 });
 
 API.interceptors.request.use((config) => {
