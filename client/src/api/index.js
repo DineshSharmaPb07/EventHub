@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API = axios.create({
   // Yahan tera naya secure Ngrok URL paste ho gaya
-  baseURL: 'https://jester-hatless-elusive.ngrok-free.dev', 
+  baseURL: 'https://your-unique-subdomain.ngrok-free.dev', 
 });
 
 API.interceptors.request.use((config) => {
